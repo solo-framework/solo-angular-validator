@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset='utf-8'>
+
+	<link rel="stylesheet" href="style.css"/>
+	<script src="../src/angular/angular-1.1.5.js"></script>
+	<script src="../src/app.factory.js"></script>
+	<script src="../src/solovalidator/directives.js"></script>
+	<script src="../src/solovalidator/validators.js"></script>
+</head>
+<body>
+
+<div ng-app="testValdator" ng-cloak>
+	<form action="/someaction" method="post" name="form" id="someForm">
+
+		<label for="string">Имя *</label>
+		<input type="text" ng-model="model.string" name="name" id="name" value="" solo:validator="required"/>
+		<div ng-show="form.name.$showError" class="error"><[form.name.$errorMessage]></div>
+
+		<br/>
+
+		<label for="string">Возраст *</label>
+		<input type="text" ng-model="model.age" name="age" id="age" value="" solo:validator="required,int,min=0,max=100"/>
+		<div ng-show="form.age.$showError" class="error"><[form.age.$errorMessage]></div>
+
+		<br/>
+		<label for="string">Электронная почта</label>
+		<input type="text" ng-model="model.email" name="email" id="email" value="" solo:validator="email"/>
+		<div ng-show="form.email.$showError" class="error"><[form.email.$errorMessage]></div>
+
+		<br/>
+		<input type="submit" value="Submit" ng-disabled="form.$invalid"/>
+
+	</form>
+</div>
+
+<script type="text/javascript">
+
+	// app initialization
+	AppFactory("testValdator", ['solo.validation']);
+
+</script>
+
+</body>
+</html>

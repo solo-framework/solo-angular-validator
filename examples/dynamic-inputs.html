@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset='utf-8'>
+
+	<link rel="stylesheet" href="style.css"/>
+	<script src="../src/angular/angular-1.1.5.js"></script>
+	<script src="../src/app.factory.js"></script>
+	<script src="../src/solovalidator/directives.js"></script>
+	<script src="../src/solovalidator/validators.js"></script>
+</head>
+<body>
+
+<div ng-app="testValdator" ng-cloak>
+
+	<div ng-init="friends = [{name:'John', age:25}, {name:'Mary', age:28}]"></div>
+
+	<form action="/someaction" method="post" name="form" id="someForm">
+
+
+		<ul>
+			<li ng-repeat="friend in friends">
+
+
+				<ng-form name="innerForm">
+					<label for="string">Имя *</label>
+					<input type="text" name="foo" ng-model="friendName" value="<[friend.name]>" solo:validator="required"/>
+					<div ng-show="innerForm.foo.$showError" class="error"><[innerForm.foo.$errorMessage]></div>
+				</ng-form>
+
+<!--
+				<label for="string">Имя *</label>
+				<input type="text" name="'name[v]'" value="<[friend.name]>" ng-model="model.name" solo:validator="required"/>
+				<div ng-show="form[name[v]].$showError" class="error"><[form[name[v]].$errorMessage]></div>
+->>
+				<!--
+				<input type="text" ng-model="model.string" name="name[]" id="name" value="" solo:validator="required"/>
+				<div ng-show="form.name.$showError" class="error"><[form.name.$errorMessage]></div>
+				-->
+
+				[<[$index + 1]>] <[friend.name]> who is <[friend.age]> years old.
+			</li>
+		</ul>
+
+
+		<br/>
+		<input type="submit" name="submit" value="Submit" ng-disabled="form.$invalid"/>
+
+		<pre><[form|json]></pre>
+	</form>
+</div>
+
+<form action="gg.php" method="get">
+	<input type="text" name="nn[]"/>
+	<input type="text" name="nn[]"/>
+	<input type="text" name="nn[]"/>
+	<input type="text" name="nn[]"/>
+	<input type="submit"/>
+</form>
+
+<script type="text/javascript">
+
+	// app initialization
+	AppFactory("testValdator", ['solo.validation']);
+
+</script>
+
+</body>
+</html>
