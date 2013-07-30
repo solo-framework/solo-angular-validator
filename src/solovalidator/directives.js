@@ -28,6 +28,9 @@
 						{
 							var methodName = methods[i].replace(/^\s+|\s+$/g,'');
 
+							if ("" == methodName)
+								continue;
+
 							var method = null;
 							var res = null;
 							var parts = methodName.split("=");
@@ -64,4 +67,32 @@
 				}
 			};
 		}])
+
+		.directive("soloFormValidator", function(){
+			return {
+				require: '?ngModel',
+				link: function (scope, elem, attrs, ctrl) {
+
+					console.log(elem);
+
+					//elem.addEventListener("submit", function(e){ alert (1); return false; });
+					//elem.submit = function(){alert (1); return false;};
+
+					elem.bind("submit", function(e, v){
+
+						console.log(e);
+						e.stopImmediatePropagation();
+						return false;
+						var valid = new Validators(null);
+
+						var res = valid.showErrorMessages();
+						console.log(res);
+						//return !res;
+						return false;
+					});
+
+
+				}
+			};
+		})
 }());

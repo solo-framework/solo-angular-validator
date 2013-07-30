@@ -13,7 +13,7 @@
 <body>
 
 <div ng-app="testValdator" ng-cloak>
-	<form action="/someaction" method="post" name="form" id="someForm">
+	<form action="someaction.php" method="post" name="form" id="someForm" solo:form-validator ng-model="someFormModel">
 
 		<label for="string">Имя *</label>
 		<input type="text" ng-model="model.string" name="name" id="name" value="" solo:validator="required"/>
@@ -22,16 +22,15 @@
 		<br/>
 
 		<label for="string">Возраст *</label>
-		<input type="text" ng-model="model.age" name="age" id="age" value="" solo:validator="required,int,min=0,max=100"/>
+		<input type="text" ng-model="model.age" name="age" id="age" value="" solo:validator="int,min=0,max=100"/>
 		<div ng-show="form.age.$showError" class="error"><[form.age.$errorMessage]></div>
 
-		<br/>
-		<label for="string">Электронная почта *</label>
-		<input type="text" ng-model="model.age" name="age" id="age" value="" solo:validator=""/>
-		<div ng-show="form.age.$showError" class="error"><[form.age.$errorMessage]></div>
 
 		<br/>
+		<!--
 		<input type="submit" value="Submit" ng-disabled="form.$invalid"/>
+		-->
+		<input type="submit" value="Submit" />
 
 	</form>
 </div>
@@ -40,6 +39,7 @@
 
 	// app initialization
 	AppFactory("testValdator", ['solo.validation']);
+
 
 </script>
 

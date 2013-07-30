@@ -2,7 +2,7 @@
  * Описание методов валидации.
  */
 
-function Validators(http)
+function Validators(http, flag)
 {
 	this.http = http;
 
@@ -52,6 +52,25 @@ function Validators(http)
 
 
 			var http = null;
+
+			var invalidControllers = {};
+
+			//
+			// public members
+			//
+
+			/**
+			 * Показывает все сообщения об ошибках
+			 */
+			this.showErrorMessages = function()
+			{
+				console.log(invalidControllers);
+				var invalid = invalidControllers.length > 0;
+				for (var i in invalidControllers)
+					invalidControllers[i].$showError = true;
+
+				return invalid;
+			};
 
 			/**
 			 * Список методов, применяемых для валидации
@@ -284,6 +303,8 @@ function Validators(http)
 			{
 				if (invalid)
 				{
+					invalidControllers[ctrl.$name] = ctrl;
+
 					ctrl.$setValidity(methodName, false);
 					ctrl.$errorMessage = message;
 					ctrl.$showError = true && !ctrl.$pristine;
@@ -291,6 +312,7 @@ function Validators(http)
 				}
 				else
 				{
+					delete invalidControllers[ctrl.$name];
 					ctrl.$setValidity(methodName, true);
 					ctrl.$errorMessage = message;
 					ctrl.$showError = false;
